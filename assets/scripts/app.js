@@ -1,4 +1,5 @@
 const attackValue = 10;
+const strongAttackValue = 17;
 const monsterAttactValue = 14;
 
 let chosenMaxLife = 100;
@@ -7,12 +8,18 @@ let currentPlayerHealth = chosenMaxLife;
 
 adjustHealthBars(chosenMaxLife);
 
-function attackHandler() {
-  const damage = dealMonsterDamage(attackValue);
+function attackMonster(mode) {
+  let maxDamage;
+  if (mode === attackValue) {
+    maxDamage = attackValue;
+  } else if (mode === strongAttackValue) {
+    maxDamage = strongAttackValue;
+  }
+  const damage = dealMonsterDamage(mode);
   currentMonsterHealth -= damage;
   const playerDamage = dealPlayerDamage(monsterAttactValue);
   currentPlayerHealth -= playerDamage;
-  if (currentMonsterHealth <= 0 && currentMonsterHealth > 0) {
+  if (currentMonsterHealth <= 0 && currentPlayerHealth > 0) {
     alert('You won!');
   } else if (currentMonsterHealth > 0 && currentPlayerHealth <= 0) {
     alert('You Lost');
@@ -21,4 +28,13 @@ function attackHandler() {
   }
 }
 
+function attackHandler() {
+  attackMonster(attackValue);
+}
+
+function strongAttackHandler() {
+  attackMonster(strongAttackValue);
+}
+
 attackBtn.addEventListener('click', attackHandler);
+strongAttackBtn.addEventListener('click', strongAttackHandler);
